@@ -2,6 +2,7 @@ package collector
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/DazWilkin/gohome"
 	"github.com/prometheus/client_golang/prometheus"
@@ -18,24 +19,29 @@ type DeviceInfoCollector struct {
 
 // NewDeviceInfoCollector returns a new DeviceInfoCollector.
 func NewDeviceInfoCollector(client *gohome.Client) *DeviceInfoCollector {
+	labelNames := []string{
+		"name",
+		"build_version",
+		"version",
+	}
 	return &DeviceInfoCollector{
 		client: client,
 		NoiseLevel: prometheus.NewDesc(
 			prometheus.BuildFQName("home", "device_info", "noise_level"),
 			"TBD",
-			nil,
+			labelNames,
 			nil,
 		),
 		SignalLevel: prometheus.NewDesc(
 			prometheus.BuildFQName("home", "device_info", "signal_level"),
 			"TBD",
-			nil,
+			labelNames,
 			nil,
 		),
 		Uptime: prometheus.NewDesc(
 			prometheus.BuildFQName("home", "device_info", "uptime"),
 			"TBD",
-			nil,
+			labelNames,
 			nil,
 		),
 	}
@@ -48,23 +54,28 @@ func (c *DeviceInfoCollector) Collect(ch chan<- prometheus.Metric) {
 		log.Println(err)
 		return
 	}
+	labelValues := []string{
+		info.Name,
+		info.BuildVersion,
+		strconv.Itoa(int(info.Version)),
+	}
 	ch <- prometheus.MustNewConstMetric(
 		c.NoiseLevel,
 		prometheus.GaugeValue,
 		info.NoiseLevel,
-		[]string{}...,
+		labelValues...,
 	)
 	ch <- prometheus.MustNewConstMetric(
 		c.SignalLevel,
 		prometheus.GaugeValue,
 		info.SignalLevel,
-		[]string{}...,
+		labelValues...,
 	)
 	ch <- prometheus.MustNewConstMetric(
 		c.Uptime,
 		prometheus.GaugeValue,
 		info.Uptime,
-		[]string{}...,
+		labelValues...,
 	)
 
 }
