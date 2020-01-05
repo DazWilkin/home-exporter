@@ -102,9 +102,12 @@ Then:
 
 | Name | Type | Help
 | ---- | ---- | ----
-| `home_device_info_noise_level`  | Gauge |
-| `home_device_info_signal_level` | Gauge |
-| `home_device_info_uptime`       | Gauge |
+| `home_device_info_up`           | Gauge   | If 1 the Home device is accessible, 0 otherwise
+| `home_device_info_noise_level`  | Gauge   | Noise Level dB
+| `home_device_info_signal_level` | Gauge   | Signal Level db
+| `home_device_info_uptime`       | Gauge   | Device Uptime in seconds
+| `home_exporter_start_time`      | Gauge   | Exporter start time in Unix epoch seconds
+| `home_exporter_build_info`      | Counter | A metric with a constant '1' value labeled by OS version, Go version, and the Git commit of the exporter
 
 ### Labels
 
