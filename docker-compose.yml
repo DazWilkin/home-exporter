@@ -20,7 +20,6 @@ services:
 
   prometheus:
     restart: always
-    depends_on:
     image: prom/prometheus:v2.14.0
     container_name: prometheus
     volumes:
