@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 1m
+  evaluation_interval: 1m
+
+scrape_configs:
+  # Self
+  - job_name: "prometheus-server"
+    static_configs:
+      - targets:
+          - "localhost:9090"
+
+  # Home Exporter (Device #1)
+  - job_name: "exporter-1"
+    scrape_interval: 1m
+    static_configs:
+      - targets:
+          - "exporter-1:9999"
+
+  # Home Exporter (Device #2)
+  - job_name: "exporter-2"
+    scrape_interval: 1m
+    static_configs:
+      - targets:
+          - "exporter-2:9999"
+
+  # cAdvisor exports metrics for *all* containers running on this host
+  - job_name: cadvisor
+    static_configs:
+      - targets:
+          - "cadvisor:8080"

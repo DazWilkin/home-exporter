@@ -21,34 +21,33 @@ services:
   prometheus:
     restart: always
     depends_on:
-      - gcp-exporter
     image: prom/prometheus:v2.14.0
     container_name: prometheus
     volumes:
       - ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml
-      # - ${PWD}/rules.yml:/etc/alertmanager/rules.yml
     expose:
       - "9090"
     ports:
       - 9090:9090
 
-  # alertmanager:
-  #   restart: always
-  #   depends_on:
-  #     - prometheus
-  #   image: prom/alertmanager:v0.20.0
-  #   container_name: alertmanager
-  #   volumes:
-  #     - ${PWD}/alertmanager.yml:/etc/alertmanager/alertmanager.yml
-  #   expose:
-  #     - "9093"
-  #   ports:
-  #     - 9093:9093
-
-  home-exporter:
-    image: dazwilkin/home-exporter:123456789abcdef123456789abcdef123456789a
-    container_name: home-exporter
+  exporter-1:
+    image: dazwilkin/home-exporter:bdbd1e40faf8dc3a98c65e1412c122a33e5e0a3c
+    container_name: exporter-1
+    command:
+    - "--device=192.168.86.24:8008"
+    - "--endpoint=:9999"
     expose:
       - "9999"
     ports:
-      - 9999:9999
+      - 9998:9999
+
+  exporter-2:
+    image: dazwilkin/home-exporter:bdbd1e40faf8dc3a98c65e1412c122a33e5e0a3c
+    container_name: exporter-2
+    command:
+    - "--device=192.168.86.25:8008"
+    - "--endpoint=:9999"
+    expose:
+      - "9999"
+    ports:
+      - 9997:9999
