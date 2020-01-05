@@ -37,7 +37,7 @@ docker run \
 --rm --interactive --tty \
 --name=${DEVICE} \
 --publish=${PORT}:9999
-dazwilkin/home-exporter:bdbd1e40faf8dc3a98c65e1412c122a33e5e0a3c
+dazwilkin/home-exporter:8f17bb6057d1475fe0a90621e47401f27be789c9
   --device=192.168.86.25:8008 \
   --endpoint=:9999 \
   --metricsPath=/metrics
@@ -53,7 +53,7 @@ You'll need to configure `docker-compose.yml` with your device's configuration. 
 
 ```YAML
 ${EXPORTER_NAME}:
-  image: dazwilkin/home-exporter:bdbd1e40faf8dc3a98c65e1412c122a33e5e0a3c
+  image: dazwilkin/home-exporter:8f17bb6057d1475fe0a90621e47401f27be789c9
   container_name: ${EXPORTER_NAME}
   command:
   - "--device=${DEVICE_IP}:8008"

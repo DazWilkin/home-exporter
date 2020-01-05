@@ -30,7 +30,7 @@ services:
       - 9090:9090
 
   exporter-1:
-    image: dazwilkin/home-exporter:bdbd1e40faf8dc3a98c65e1412c122a33e5e0a3c
+    image: dazwilkin/home-exporter:8f17bb6057d1475fe0a90621e47401f27be789c9
     container_name: exporter-1
     command:
     - "--device=192.168.86.24:8008"
@@ -41,7 +41,7 @@ services:
       - 9998:9999
 
   exporter-2:
-    image: dazwilkin/home-exporter:bdbd1e40faf8dc3a98c65e1412c122a33e5e0a3c
+    image: dazwilkin/home-exporter:8f17bb6057d1475fe0a90621e47401f27be789c9
     container_name: exporter-2
     command:
     - "--device=192.168.86.25:8008"
