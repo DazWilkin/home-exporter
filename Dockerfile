@@ -23,6 +23,6 @@ FROM scratch
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /go/bin/home-exporter /
 
-EXPOSE 9402
+EXPOSE 9999
 
 ENTRYPOINT ["/home-exporter"]
