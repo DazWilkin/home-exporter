@@ -1,10 +1,21 @@
 module github.com/DazWilkin/home-exporter
 
-go 1.13
+go 1.20
 
 require (
 	github.com/DazWilkin/gohome v0.0.2-0.20200105195051-0a74c1553a44
-	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
-	github.com/modern-go/reflect2 v1.0.1 // indirect
-	github.com/prometheus/client_golang v1.3.0
+	github.com/prometheus/client_golang v1.15.0
+)
+
+require (
+	github.com/DazWilkin/golang-healthcheck v0.0.0-20180604155235-6e625eabe8c8 // indirect
+	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
+	github.com/prometheus/client_model v0.3.0 // indirect
+	github.com/prometheus/common v0.42.0 // indirect
+	github.com/prometheus/procfs v0.9.0 // indirect
+	golang.org/x/sys v0.7.0 // indirect
+	google.golang.org/protobuf v1.30.0 // indirect
 )
