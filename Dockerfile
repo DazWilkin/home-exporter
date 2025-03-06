@@ -1,15 +1,22 @@
-ARG GOLANG_VERSION=1.13
+ARG GOLANG_VERSION=1.24
+
+ARG COMMIT
+ARG VERSION
 
 FROM golang:${GOLANG_VERSION} as build
 
-ARG VERSION=""
-ARG COMMIT=""
+ARG COMMIT
+ARG VERSION
 
 WORKDIR /home-exporter
 
-COPY go.* ./
-COPY main.go .
-COPY collector ./collector
+COPY go.mod go.mod
+COPY go.sum go.sum
+
+RUN go mod download
+
+COPY main.go main.go
+COPY collector collector
 
 RUN CGO_ENABLED=0 GOOS=linux \
     go build \
@@ -18,10 +25,9 @@ RUN CGO_ENABLED=0 GOOS=linux \
     -o /go/bin/home-exporter \
     ./main.go
 
-FROM scratch
+FROM gcr.io/distroless/static-debian12:latest
 
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=build /go/bin/home-exporter /
+LABEL org.opencontainers.image.source=https://github.com/DazWilkin/home-exporter
 
 EXPOSE 9999
 
