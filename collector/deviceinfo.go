@@ -73,12 +73,19 @@ func (c *DeviceInfoCollector) Collect(ch chan<- prometheus.Metric) {
 		c.BuildInfo,
 		prometheus.CounterValue,
 		1.0,
-		info.BuildVersion, info.CastBuildRevision, info.ReleaseTrack)
+		[]string{
+			info.BuildVersion,
+			info.CastBuildRevision,
+			info.ReleaseTrack,
+		}...,
+	)
+
 	labelValues := []string{
 		info.Name,
 		info.BuildVersion,
 		strconv.Itoa(int(info.Version)),
 	}
+
 	ch <- prometheus.MustNewConstMetric(
 		c.NoiseLevel,
 		prometheus.GaugeValue,

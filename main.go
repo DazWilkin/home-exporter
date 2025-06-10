@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"runtime"
@@ -30,17 +30,44 @@ var (
 	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
 )
 
+const (
+	rootContent string = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Google Home Exporter</title>
+  <style>body { font-family: sans-serif; }</style>
+</head>
+<body>
+  <h2>Google Home Exporter</h2>
+  <ul>
+    <li><a href="{{ .MetricsPath }}">metrics</a></li>
+	<li><a href="/healthz">healthz</a></li>
+  </ul>
+</body>
+</html>
+`
+)
+
+var (
+	rootTemplate = template.Must(template.New("root").Parse(rootContent))
+)
+
 func handleHealthz(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("ok"))
+	if _, err := w.Write([]byte("ok")); err != nil {
+		log.Println(err)
+	}
 }
 func handleRoot(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	fmt.Fprint(w, "<h2>Google Home Exporter</h2>")
-	fmt.Fprint(w, "<ul>")
-	fmt.Fprintf(w, "<li><a href=\"%s\">metrics</a></li>", *metricsPath)
-	fmt.Fprintf(w, "<li><a href=\"/healthz\">healthz</a></li>")
-	fmt.Fprint(w, "</ul>")
+	if err := rootTemplate.Execute(w, struct {
+		MetricsPath string
+	}{
+		MetricsPath: *metricsPath,
+	}); err != nil {
+		log.Println(err)
+	}
 }
 func main() {
 	flag.Parse()
