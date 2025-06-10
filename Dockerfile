@@ -27,6 +27,8 @@ RUN CGO_ENABLED=0 GOOS=linux \
 
 FROM gcr.io/distroless/static-debian12:latest
 
+COPY --from=build /go/bin/home-exporter /
+
 LABEL org.opencontainers.image.source=https://github.com/DazWilkin/home-exporter
 
 EXPOSE 9999
